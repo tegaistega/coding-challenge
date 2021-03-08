@@ -37,5 +37,6 @@
     <orderEntry type="library" name="Maven: org.terracotta:statistics:1.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.terracotta:offheap-store:2.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.ehcache:sizeof:0.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.18" level="project" />
   </component>
 </module>
