@@ -2,6 +2,7 @@ package io.bankbridge.handler;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.bankbridge.model.response.BankV1Response;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
@@ -27,6 +28,7 @@ public class BanksCacheBased {
 						.newCacheConfigurationBuilder(String.class, BankModel.class, ResourcePoolsBuilder.heap(20)))
 				.build();
 		cacheManager.init();
+
 		Cache cache = cacheManager.getCache("banks", String.class, BankModel.class);
 		try {
 			BankModelList models = new ObjectMapper().readValue(
@@ -40,17 +42,17 @@ public class BanksCacheBased {
 	}
 
 	public static String handle(Request request, Response response) {
-		List<BankModel> result = new ArrayList<>();
+		List<BankV1Response> resultResponse = new ArrayList<>();
+
 		cacheManager.getCache("banks", String.class, BankModel.class).forEach(entry -> {
-			result.add(entry.getValue());
+			resultResponse.add(new BankV1Response(entry.getValue()));
 		});
 		try {
-			String resultAsString = new ObjectMapper().writeValueAsString(result);
-			return resultAsString;
+			return new ObjectMapper().writeValueAsString(resultResponse);
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException("Error while processing request");
 		}
-
 	}
+
 
 }

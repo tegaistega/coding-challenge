@@ -1,4 +1,6 @@
-package io.bankbridge.model;
+package io.bankbridge.handler;
+import spark.Service;
+
 import static spark.Spark.get;
 import static spark.Spark.port;
 
@@ -128,5 +130,8 @@ public class MockRemotes {
 				"\"countryCode\":\"SE\",\n" + 
 				"\"auth\":\"ssl-certificate\"\n" + 
 				"}");
+	}
+
+	public static void startMockRemoteServerOnPort(Service localhost_1234) {
 	}
 }
