@@ -3,7 +3,7 @@ import static spark.Service.ignite;
 import static spark.Spark.get;
 import static spark.Spark.port;
 
-import io.bankbridge.MockRemotes;
+import io.bankbridge.handler.MockRemotes;
 import io.bankbridge.handler.BanksCacheBased;
 import io.bankbridge.handler.BanksRemoteCalls;
 import spark.Service;
@@ -24,11 +24,11 @@ public class Main {
 		BanksRemoteCalls.init();
 
 		localhost_8080.get("v1/banks/all", BanksCacheBased::handle);
+		localhost_8080.get("v2/banks/all", BanksRemoteCalls::handle);
 	}
 
 	static void startMockRemoteServerOn(){
-		Service localhost_1234 = ignite()
-				.port(1234);
+		Service localhost_1234 = ignite().port(1234);
 		MockRemotes.startMockRemoteServerOnPort(localhost_1234);
 	}
 }

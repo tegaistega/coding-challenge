@@ -66,4 +66,38 @@ public class BanksRemoteCalls {
 		}
 	}
 
+	public static Object pageContentSizingForPagination(Request request, Response response) throws IOException{
+
+		List<BankV2Response> bankV2Responses = new ArrayList<>();
+		for(Object bank: config.keySet()){
+			bankV2Responses.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
+		}
+		try{
+			int defaultPageContentSize = 5;
+			String userRequestSize = request.params(":size");
+			int userRequestSizeValue = 0;
+
+			if(userRequestSize == null || userRequestSize.isEmpty()){
+				userRequestSizeValue = defaultPageContentSize;
+			}else {
+				userRequestSizeValue = Integer.parseInt(userRequestSize);
+			}
+
+			List<BankV2Response> bankV2ResponseList = new ArrayList<>();
+
+			if(userRequestSizeValue<=0 || userRequestSizeValue>bankV2Responses.size()){
+				response.status(400);
+				return "Bad Request: Enter a value greater than zero and less than 20";
+
+			}else{
+				for(int i = 1; i<userRequestSizeValue; i++){
+					bankV2ResponseList.add(bankV2Responses.get(i));
+				}
+			}
+			return new ObjectMapper().writeValueAsString(bankV2ResponseList);
+		}catch (JsonProcessingException jsonProcessingException){
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
 }
