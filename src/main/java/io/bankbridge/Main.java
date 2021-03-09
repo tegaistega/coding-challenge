@@ -3,17 +3,32 @@ import static spark.Service.ignite;
 import static spark.Spark.get;
 import static spark.Spark.port;
 
+import io.bankbridge.handler.LogHandlerClass;
 import io.bankbridge.handler.MockRemotes;
 import io.bankbridge.handler.BanksCacheBased;
 import io.bankbridge.handler.BanksRemoteCalls;
 import spark.Service;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Main {
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static void main(String[] args) throws Exception {
-		
+		LogHandlerClass.setupLogger();
+		logger.info("Logger started successfully");
+		try{
+			throw new java.io.IOException("couldn't read file");
+		}catch(IOException ioException){
+			logger.log(Level.ALL, "File read error");
+		}
+
 		startApplicationServerOnPort();
 		startMockRemoteServerOn();
+
+		BanksRemoteCalls.init();
 	}
 
 	static void startApplicationServerOnPort() throws Exception{

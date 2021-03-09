@@ -5,15 +5,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.bankbridge.Main;
 import io.bankbridge.model.request.BankModel;
 import io.bankbridge.model.response.BankV2Response;
 import spark.Request;
@@ -21,9 +23,13 @@ import spark.Response;
 
 public class BanksRemoteCalls {
 
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private static Map config;
 
+
 	public static void init() throws Exception {
+
 		config = new ObjectMapper()
 				.readValue(Thread.currentThread().getContextClassLoader().getResource("banks-v2.json"), Map.class);
 	}
@@ -37,6 +43,7 @@ public class BanksRemoteCalls {
 		try{
 			return new ObjectMapper().writeValueAsString(resultResponseV2);
 		}catch (JsonProcessingException jsonProcessingException){
+			logger.severe("Exception occurred");
 			throw new RuntimeException("Error while processing request");
 		}
 	}
@@ -64,6 +71,7 @@ public class BanksRemoteCalls {
 			bufferedReaderInput.close();
 
 			return stringBuilderResponse.toString();
+
 		}else{
 			return "bad";
 		}
@@ -78,11 +86,9 @@ public class BanksRemoteCalls {
 		try{
 			int defaultPageContentSize = 5;
 			String userRequestSize = request.params(":size");
-			int userRequestSizeValue;
+			int userRequestSizeValue = 0;
 
-			if (userRequestSize.isEmpty()) {
-				userRequestSizeValue = defaultPageContentSize;
-			} else if (userRequestSize == null) {
+			if (userRequestSize == null) {
 				userRequestSizeValue = defaultPageContentSize;
 			} else {
 				userRequestSizeValue = Integer.parseInt(userRequestSize);

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T16:43:14.389902600Z</date>
+  <millis>1615308194389</millis>
+  <nanos>902600</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T16:43:14.405526300Z</date>
+  <millis>1615308194405</millis>
+  <nanos>526300</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>SEVERE</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T16:49:45.464071500Z</date>
+  <millis>1615308585464</millis>
+  <nanos>71500</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T16:49:45.479692700Z</date>
+  <millis>1615308585479</millis>
+  <nanos>692700</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>SEVERE</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<record>
+  <date>2021-03-09T16:49:46.651489200Z</date>
+  <millis>1615308586651</millis>
+  <nanos>489200</nanos>
+  <sequence>2</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.handler.BanksRemoteCalls</class>
+  <method>init</method>
+  <thread>1</thread>
+  <message>I am from the bank remote call class in the init method</message>
+</record>
+<record>
+  <date>2021-03-09T16:49:46.698361600Z</date>
+  <millis>1615308586698</millis>
+  <nanos>361600</nanos>
+  <sequence>3</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.handler.BanksRemoteCalls</class>
+  <method>init</method>
+  <thread>1</thread>
+  <message>I am from the bank remote call class in the init method</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:12:47.456627700Z</date>
+  <millis>1615309967456</millis>
+  <nanos>627700</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:13:37.726260800Z</date>
+  <millis>1615310017726</millis>
+  <nanos>260800</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T17:13:37.741884200Z</date>
+  <millis>1615310017741</millis>
+  <nanos>884200</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:15:01.723828400Z</date>
+  <millis>1615310101723</millis>
+  <nanos>828400</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T17:15:01.739453100Z</date>
+  <millis>1615310101739</millis>
+  <nanos>453100</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:20:49.469530800Z</date>
+  <millis>1615310449469</millis>
+  <nanos>530800</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T17:20:49.485154500Z</date>
+  <millis>1615310449485</millis>
+  <nanos>154500</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:21:38.363820300Z</date>
+  <millis>1615310498363</millis>
+  <nanos>820300</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T17:21:38.379442900Z</date>
+  <millis>1615310498379</millis>
+  <nanos>442900</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-09T17:22:00.079324500Z</date>
+  <millis>1615310520079</millis>
+  <nanos>324500</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-09T17:22:00.094949700Z</date>
+  <millis>1615310520094</millis>
+  <nanos>949700</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
