@@ -5,8 +5,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +72,8 @@ public class BanksRemoteCalls {
 	public static Object pageContentSizingForPagination(Request request, Response response) throws IOException{
 
 		List<BankV2Response> bankV2Responses = new ArrayList<>();
-		for(Object bank: config.keySet()){
+		for (Iterator iterator = config.keySet().iterator(); iterator.hasNext(); ) {
+			Object bank = iterator.next();
 			bankV2Responses.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
 		}
 		try{
@@ -83,16 +87,17 @@ public class BanksRemoteCalls {
 				userRequestSizeValue = Integer.parseInt(userRequestSize);
 			}
 
-			List<BankV2Response> bankV2ResponseList = new ArrayList<>();
+			ArrayList<BankV2Response> bankV2ResponseList;
 
-			if(userRequestSizeValue<=0 || userRequestSizeValue>bankV2Responses.size()){
+			if((userRequestSizeValue <= 0) || (userRequestSizeValue > bankV2Responses.size())){
 				response.status(400);
-				return "Bad Request: Enter a value greater than zero and less than 20";
+				String statusMessage = "Bad Request: Enter a value greater than zero and less than 20";
+				return statusMessage;
 
 			}else{
-				for(int i = 1; i<userRequestSizeValue; i++){
-					bankV2ResponseList.add(bankV2Responses.get(i));
-				}
+				bankV2ResponseList = IntStream.range(0, userRequestSizeValue)
+						.mapToObj(bankV2Responses::get)
+						.collect(Collectors.toCollection(ArrayList::new));
 			}
 			return new ObjectMapper().writeValueAsString(bankV2ResponseList);
 		}catch (JsonProcessingException jsonProcessingException){

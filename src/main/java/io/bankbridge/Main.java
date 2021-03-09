@@ -25,6 +25,10 @@ public class Main {
 
 		localhost_8080.get("v1/banks/all", BanksCacheBased::handle);
 		localhost_8080.get("v2/banks/all", BanksRemoteCalls::handle);
+		localhost_8080.get("/v1/banks/:size", BanksCacheBased::pageContentSizingForPagination);
+		localhost_8080.get("/v1/banks/", BanksCacheBased::pageContentSizingForPagination);
+		localhost_8080.get("/v2/banks/", BanksRemoteCalls::pageContentSizingForPagination);
+		localhost_8080.get("/v2/banks/:size", BanksRemoteCalls::pageContentSizingForPagination);
 	}
 
 	static void startMockRemoteServerOn(){
