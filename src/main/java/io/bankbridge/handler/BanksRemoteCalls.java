@@ -130,4 +130,30 @@ public class BanksRemoteCalls {
 		}
 	}
 
+	public static Object filterByAuth(Request request, Response response) throws IOException {
+		List<BankV2Response> bankV2ResponseList = new ArrayList<>();
+		List<BankV2Response> bankV2ResponseList1 = new ArrayList<>();
+
+		for(Object bank: config.keySet()){
+			bankV2ResponseList.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
+		}
+		try {
+			String auth;
+			auth = request.params(":auth");
+			if (auth == null){
+				bankV2ResponseList1.addAll(bankV2ResponseList);
+			}
+			else {
+				bankV2ResponseList.forEach(bank -> {
+					if (bank.getAuth().equals(auth)) {
+						bankV2ResponseList1.add(bank);
+					}
+				});
+			}
+			return new ObjectMapper().writeValueAsString(bankV2ResponseList1);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
 }

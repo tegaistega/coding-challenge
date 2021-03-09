@@ -130,5 +130,52 @@ public class BanksCacheBased {
 		}
 	}
 
+	public static Object filterByAuth(Request request, Response response) {
+		List<BankV1Response> bankV1ResponseList = new ArrayList<>();
+		List<BankV1Response> bankV1ResponseList1 = new ArrayList<>();
+
+		cacheManager.getCache("banks", String.class, BankModel.class).forEach(entry -> bankV1ResponseList.add(new BankV1Response(entry.getValue())));
+		try {
+			String auth = request.params(":auth");
+			if (auth == null){
+				bankV1ResponseList1.addAll(bankV1ResponseList);
+			}
+			else {
+				bankV1ResponseList.forEach(bank -> {
+					if (bank.getAuth().equals(auth)) {
+						bankV1ResponseList1.add(bank);
+					}
+				});
+			}
+			return new ObjectMapper().writeValueAsString(bankV1ResponseList1);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
+	public static Object filterByProduct(Request request, Response response) {
+		List<BankV1Response> bankV1ResponseList = new ArrayList<>();
+		List<BankV1Response> bankV1ResponseList1 = new ArrayList<>();
+
+		cacheManager.getCache("banks", String.class, BankModel.class).forEach(entry -> bankV1ResponseList.add(new BankV1Response(entry.getValue())));
+
+		try {
+			String product = request.params(":product");
+			if (product == null){
+				bankV1ResponseList1.addAll(bankV1ResponseList);
+			}
+			else {
+				bankV1ResponseList.forEach(bank -> {
+					if (bank.getProducts().contains(product)) {
+						bankV1ResponseList1.add(bank);
+					}
+				});
+			}
+			return new ObjectMapper().writeValueAsString(bankV1ResponseList1);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
 
 }
