@@ -5,15 +5,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.bankbridge.Main;
 import io.bankbridge.model.request.BankModel;
 import io.bankbridge.model.response.BankV2Response;
 import spark.Request;
@@ -21,14 +23,18 @@ import spark.Response;
 
 public class BanksRemoteCalls {
 
+	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 	private static Map config;
 
+
 	public static void init() throws Exception {
+
 		config = new ObjectMapper()
 				.readValue(Thread.currentThread().getContextClassLoader().getResource("banks-v2.json"), Map.class);
 	}
 
-	public static String handle(Request request, Response response) throws IOException {
+	public static String handle() throws IOException {
 		List<BankV2Response> resultResponseV2 = new ArrayList<>();
 
 		for(Object bank: config.keySet()){
@@ -37,6 +43,7 @@ public class BanksRemoteCalls {
 		try{
 			return new ObjectMapper().writeValueAsString(resultResponseV2);
 		}catch (JsonProcessingException jsonProcessingException){
+			logger.severe("Exception occurred");
 			throw new RuntimeException("Error while processing request");
 		}
 	}
@@ -56,14 +63,15 @@ public class BanksRemoteCalls {
 			BufferedReader bufferedReaderInput = new BufferedReader(new InputStreamReader(
 					urlConnection.getInputStream()));
 			String inputLine;
-			StringBuffer stringBufferResponse = new StringBuffer();
+			StringBuilder stringBuilderResponse = new StringBuilder();
 
 			while((inputLine = bufferedReaderInput.readLine()) != null){
-				stringBufferResponse.append(inputLine);
+				stringBuilderResponse.append(inputLine);
 			}
 			bufferedReaderInput.close();
 
-			return stringBufferResponse.toString();
+			return stringBuilderResponse.toString();
+
 		}else{
 			return "bad";
 		}
@@ -72,8 +80,7 @@ public class BanksRemoteCalls {
 	public static Object pageContentSizingForPagination(Request request, Response response) throws IOException{
 
 		List<BankV2Response> bankV2Responses = new ArrayList<>();
-		for (Iterator iterator = config.keySet().iterator(); iterator.hasNext(); ) {
-			Object bank = iterator.next();
+		for (Object bank : config.keySet()) {
 			bankV2Responses.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
 		}
 		try{
@@ -81,9 +88,9 @@ public class BanksRemoteCalls {
 			String userRequestSize = request.params(":size");
 			int userRequestSizeValue = 0;
 
-			if(userRequestSize == null || userRequestSize.isEmpty()){
+			if (userRequestSize == null) {
 				userRequestSizeValue = defaultPageContentSize;
-			}else {
+			} else {
 				userRequestSizeValue = Integer.parseInt(userRequestSize);
 			}
 
