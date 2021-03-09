@@ -33,6 +33,12 @@ public class Main {
 		localhost_8080.get("/v1/banks/filter-by-country-code/", BanksCacheBased::filterByCountryCode);
 		localhost_8080.get("/v2/banks/filter-by-country-code/:countryCode", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
 		localhost_8080.get("/v2/banks/filter-by-country-code/", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
+		localhost_8080.get("/v1/banks/filter-by-auth/", BanksCacheBased::filterByAuth);
+		localhost_8080.get("/v1/banks/filter-by-auth/:auth", BanksCacheBased::filterByAuth);
+		localhost_8080.get("/v2/banks/filter-by-auth/:auth", BanksRemoteCalls::filterByAuth);
+		localhost_8080.get("/v2/banks/filter-by-auth/", BanksRemoteCalls::filterByAuth);
+		localhost_8080.get("/v1/banks/filter-by-product/", BanksCacheBased::filterByProduct);
+		localhost_8080.get("/v1/banks/filter-by-product/:product", BanksCacheBased::filterByProduct);
 	}
 
 	static void startMockRemoteServerOn(){
