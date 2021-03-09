@@ -3,7 +3,7 @@ import static spark.Service.ignite;
 import static spark.Spark.get;
 import static spark.Spark.port;
 
-import io.bankbridge.MockRemotes;
+import io.bankbridge.handler.MockRemotes;
 import io.bankbridge.handler.BanksCacheBased;
 import io.bankbridge.handler.BanksRemoteCalls;
 import spark.Service;
@@ -24,11 +24,19 @@ public class Main {
 		BanksRemoteCalls.init();
 
 		localhost_8080.get("v1/banks/all", BanksCacheBased::handle);
+		localhost_8080.get("v2/banks/all", BanksRemoteCalls::handle);
+		localhost_8080.get("/v1/banks/:size", BanksCacheBased::pageContentSizingForPagination);
+		localhost_8080.get("/v1/banks/", BanksCacheBased::pageContentSizingForPagination);
+		localhost_8080.get("/v2/banks/", BanksRemoteCalls::pageContentSizingForPagination);
+		localhost_8080.get("/v2/banks/:size", BanksRemoteCalls::pageContentSizingForPagination);
+		localhost_8080.get("/v1/banks/filter-by-country-code/:countryCode", BanksCacheBased::filterByCountryCode);
+		localhost_8080.get("/v1/banks/filter-by-country-code/", BanksCacheBased::filterByCountryCode);
+		localhost_8080.get("/v2/banks/filter-by-country-code/:countryCode", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
+		localhost_8080.get("/v2/banks/filter-by-country-code/", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
 	}
 
 	static void startMockRemoteServerOn(){
-		Service localhost_1234 = ignite()
-				.port(1234);
+		Service localhost_1234 = ignite().port(1234);
 		MockRemotes.startMockRemoteServerOnPort(localhost_1234);
 	}
 }

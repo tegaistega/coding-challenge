@@ -5,8 +5,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,6 +66,67 @@ public class BanksRemoteCalls {
 			return stringBufferResponse.toString();
 		}else{
 			return "bad";
+		}
+	}
+
+	public static Object pageContentSizingForPagination(Request request, Response response) throws IOException{
+
+		List<BankV2Response> bankV2Responses = new ArrayList<>();
+		for (Iterator iterator = config.keySet().iterator(); iterator.hasNext(); ) {
+			Object bank = iterator.next();
+			bankV2Responses.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
+		}
+		try{
+			int defaultPageContentSize = 5;
+			String userRequestSize = request.params(":size");
+			int userRequestSizeValue = 0;
+
+			if(userRequestSize == null || userRequestSize.isEmpty()){
+				userRequestSizeValue = defaultPageContentSize;
+			}else {
+				userRequestSizeValue = Integer.parseInt(userRequestSize);
+			}
+
+			ArrayList<BankV2Response> bankV2ResponseList;
+
+			if((userRequestSizeValue <= 0) || (userRequestSizeValue > bankV2Responses.size())){
+				response.status(400);
+				String statusMessage = "Bad Request: Enter a value greater than zero and less than 20";
+				return statusMessage;
+
+			}else{
+				bankV2ResponseList = IntStream.range(0, userRequestSizeValue)
+						.mapToObj(bankV2Responses::get)
+						.collect(Collectors.toCollection(ArrayList::new));
+			}
+			return new ObjectMapper().writeValueAsString(bankV2ResponseList);
+		}catch (JsonProcessingException jsonProcessingException){
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
+	public static Object filterByCountryCode(Request request) throws IOException {
+		List<BankV2Response> bankV2ResponseList = new ArrayList<>();
+		List<BankV2Response> bankV2ResponseList1 = new ArrayList<>();
+
+		for(Object bank: config.keySet()){
+			bankV2ResponseList.add(getBankV2ResponseFromRemoteCalls(((String) config.get(bank))));
+		}
+		try {
+			String countryCode = request.params(":countryCode");
+			if(countryCode == null){
+				bankV2ResponseList1.addAll(bankV2ResponseList);
+			}else {
+				bankV2ResponseList.forEach(bank ->{
+					if(bank.getCountryCode().toUpperCase().equals(countryCode.toUpperCase())){
+						bankV2ResponseList1.add(bank);
+					}
+				});
+			}
+			return new ObjectMapper().writeValueAsString(bankV2ResponseList1);
+
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while processing request");
 		}
 	}
 
