@@ -4,8 +4,11 @@ import io.bankbridge.model.response.BankV1Response;
 import io.bankbridge.model.response.BankV2Response;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 
+import java.util.List;
+
+import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankCallsTests {
@@ -36,4 +39,75 @@ public class BankCallsTests {
         assertEquals("SE", bankV2Response.getCountryCode());
         assertEquals("color1234", bankV2Response.getId());
     }
+
+    @Test
+    public void bankV1EndpointWithTheAllParameterTest() {
+        List<String> result =
+                given().param("all")
+                        .when()
+                        .get("http://localhost:8080/v1/banks/all")
+                        .then().extract().body().jsonPath().getList(".");
+        assertThat(result).hasSize(20);
+    }
+
+    @Test
+    public void bankV2EndpointWithTheAllParameterTest() {
+        List<String> result =
+                given().param("all")
+                        .when()
+                        .get("http://localhost:8080/v2/banks/all")
+                        .then().extract().body().jsonPath().getList(".");
+
+        assertThat(result).hasSize(20);
+    }
+
+    @Test
+    public void bankV1EndpointWithNoParameterTest() {
+        List<String> result =
+                given().param("")
+                        .when()
+                        .get("http://localhost:8080/v1/banks/")
+                        .then().extract().body().jsonPath().getList(".");
+        assertThat(result).hasSize(5);
+    }
+
+    @Test
+    public void bankV2EndpointWithNoParameterTest() {
+        List<String> result =
+                given().param("")
+                        .when()
+                        .get("http://localhost:8080/v2/banks/")
+                        .then().extract().body().jsonPath().getList(".");
+        assertThat(result).hasSize(5);
+    }
+
+    @Test
+    public void bankV1EndpointWithPageContentSizeParameterTest(){
+        List <String> result =
+                given().params("size", 6)
+                        .when()
+                        .get("http://localhost:8080/v1/banks/6")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        assertThat(result).hasSize(6);
+    }
+
+    @Test
+    public void bankV2EndpointWithPageContentSizeParameterTest() {
+        List<String> result =
+                given().params("size", 7)
+                        .when()
+                        .get("http://localhost:8080/v2/banks/7")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        assertThat(result).hasSize(7);
+    }
+
+
 }

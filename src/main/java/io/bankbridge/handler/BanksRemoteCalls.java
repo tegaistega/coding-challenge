@@ -28,7 +28,7 @@ public class BanksRemoteCalls {
 				.readValue(Thread.currentThread().getContextClassLoader().getResource("banks-v2.json"), Map.class);
 	}
 
-	public static String handle(Request request, Response response) throws IOException {
+	public static String handle() throws IOException {
 		List<BankV2Response> resultResponseV2 = new ArrayList<>();
 
 		for(Object bank: config.keySet()){
@@ -56,14 +56,14 @@ public class BanksRemoteCalls {
 			BufferedReader bufferedReaderInput = new BufferedReader(new InputStreamReader(
 					urlConnection.getInputStream()));
 			String inputLine;
-			StringBuffer stringBufferResponse = new StringBuffer();
+			StringBuilder stringBuilderResponse = new StringBuilder();
 
 			while((inputLine = bufferedReaderInput.readLine()) != null){
-				stringBufferResponse.append(inputLine);
+				stringBuilderResponse.append(inputLine);
 			}
 			bufferedReaderInput.close();
 
-			return stringBufferResponse.toString();
+			return stringBuilderResponse.toString();
 		}else{
 			return "bad";
 		}
@@ -72,18 +72,19 @@ public class BanksRemoteCalls {
 	public static Object pageContentSizingForPagination(Request request, Response response) throws IOException{
 
 		List<BankV2Response> bankV2Responses = new ArrayList<>();
-		for (Iterator iterator = config.keySet().iterator(); iterator.hasNext(); ) {
-			Object bank = iterator.next();
+		for (Object bank : config.keySet()) {
 			bankV2Responses.add(getBankV2ResponseFromRemoteCalls((String) config.get(bank)));
 		}
 		try{
 			int defaultPageContentSize = 5;
 			String userRequestSize = request.params(":size");
-			int userRequestSizeValue = 0;
+			int userRequestSizeValue;
 
-			if(userRequestSize == null || userRequestSize.isEmpty()){
+			if (userRequestSize.isEmpty()) {
 				userRequestSizeValue = defaultPageContentSize;
-			}else {
+			} else if (userRequestSize == null) {
+				userRequestSizeValue = defaultPageContentSize;
+			} else {
 				userRequestSizeValue = Integer.parseInt(userRequestSize);
 			}
 
