@@ -105,4 +105,29 @@ public class BanksRemoteCalls {
 		}
 	}
 
+	public static Object filterByCountryCode(Request request) throws IOException {
+		List<BankV2Response> bankV2ResponseList = new ArrayList<>();
+		List<BankV2Response> bankV2ResponseList1 = new ArrayList<>();
+
+		for(Object bank: config.keySet()){
+			bankV2ResponseList.add(getBankV2ResponseFromRemoteCalls(((String) config.get(bank))));
+		}
+		try {
+			String countryCode = request.params(":countryCode");
+			if(countryCode == null){
+				bankV2ResponseList1.addAll(bankV2ResponseList);
+			}else {
+				bankV2ResponseList.forEach(bank ->{
+					if(bank.getCountryCode().toUpperCase().equals(countryCode.toUpperCase())){
+						bankV2ResponseList1.add(bank);
+					}
+				});
+			}
+			return new ObjectMapper().writeValueAsString(bankV2ResponseList1);
+
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Error while processing request");
+		}
+	}
+
 }

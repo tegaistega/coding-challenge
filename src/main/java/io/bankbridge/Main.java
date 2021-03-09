@@ -29,6 +29,10 @@ public class Main {
 		localhost_8080.get("/v1/banks/", BanksCacheBased::pageContentSizingForPagination);
 		localhost_8080.get("/v2/banks/", BanksRemoteCalls::pageContentSizingForPagination);
 		localhost_8080.get("/v2/banks/:size", BanksRemoteCalls::pageContentSizingForPagination);
+		localhost_8080.get("/v1/banks/filter-by-country-code/:countryCode", BanksCacheBased::filterByCountryCode);
+		localhost_8080.get("/v1/banks/filter-by-country-code/", BanksCacheBased::filterByCountryCode);
+		localhost_8080.get("/v2/banks/filter-by-country-code/:countryCode", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
+		localhost_8080.get("/v2/banks/filter-by-country-code/", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
 	}
 
 	static void startMockRemoteServerOn(){

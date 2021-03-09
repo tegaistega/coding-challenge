@@ -104,5 +104,31 @@ public class BanksCacheBased {
 		}
 	}
 
+	public static Object filterByCountryCode(Request request, Response response){
+		List<BankV1Response> bankV1ResponseList = new ArrayList<>();
+		List<BankV1Response> bankV1ResponseList1 = new ArrayList<>();
+
+		for (Cache.Entry<String, BankModel> entry : cacheManager.getCache("banks", String.class, BankModel.class)) {
+			bankV1ResponseList.add(new BankV1Response(entry.getValue()));
+		}
+
+		try{
+			String countryCode;
+			countryCode = request.params(":countryCode");
+			if(countryCode == null){
+				bankV1ResponseList1.addAll(bankV1ResponseList);
+			}else {
+				for (BankV1Response bank : bankV1ResponseList) {
+					if (bank.getCountryCode().toUpperCase().equals((countryCode.toUpperCase()))) {
+						bankV1ResponseList1.add(bank);
+					}
+				}
+			}
+			return new ObjectMapper().writeValueAsString(bankV1ResponseList1);
+		}catch (JsonProcessingException jsonProcessingException){
+			throw  new RuntimeException("Error while processing request");
+		}
+	}
+
 
 }
