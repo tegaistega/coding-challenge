@@ -1,8 +1,6 @@
 package io.bankbridge.handler;
-import spark.Service;
 
-import static spark.Spark.get;
-import static spark.Spark.port;
+import spark.Service;
 
 public class MockRemotes {
 
