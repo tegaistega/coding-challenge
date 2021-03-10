@@ -1,17 +1,24 @@
 package io.bankbridge;
 
+import io.bankbridge.handler.BanksRemoteCalls;
 import io.bankbridge.model.response.BankV1Response;
 import io.bankbridge.model.response.BankV2Response;
+import io.restassured.RestAssured;
+import io.restassured.filter.Filter;
+import org.assertj.core.api.AbstractStringAssert;
 import org.junit.jupiter.api.Test;
+import spark.Request;
 
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BankCallsTests {
+
+    private AbstractStringAssert<?> countryCode;
 
     @Test
     public void bankV1ResponseAssertingUserInputs(){
@@ -109,5 +116,80 @@ public class BankCallsTests {
         assertThat(result).hasSize(7);
     }
 
+    @Test
+    public void bankV1EndpointWithCountryCodeParameterTest() {
+        List<String> result =
+                given().param("countryCode")
+                        .when()
+                        .get("http://localhost:8080/v1/banks/filter-by-country-code/no")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        System.out.println(result.size());
+        assertThat(true).isEqualTo(result.size()==5);
+    }
 
+    @Test
+    public void bankV2EndpointWithCountryCodeParameterTest() {
+        List<String> result =
+                given().param("countryCode")
+                    .when()
+                    .get("http://localhost:8080/v2/banks/filter-by-country-code/no")
+                    .then()
+                    .extract()
+                    .body()
+                    .jsonPath()
+                    .getList(".");
+        System.out.println(result.size());
+            assertThat(true).isEqualTo(result.size()==6);
+    }
+
+    @Test
+    public void bankV1EndpointWithProductParameterTest() {
+        List<String> result =
+                given().param("product")
+                        .when()
+                        .get("http://localhost:8080/v1/banks/filter-by-product/accounts")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        System.out.println(result.size());
+        assertThat(true).isEqualTo(result.size()==16);
+    }
+
+    @Test
+    public void bankV1EndpointWithAuthParameterTest() {
+        String oauth = "oauth";
+        List<String> result =
+                given().param("product")
+                        .when()
+                        .get("http://localhost:8080/v1/banks/filter-by-auth/oauth")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        assertThat(true).isEqualTo(result.size()==12);
+    }
+
+    @Test
+    public void bankV2EndpointWithAuthParameterTest() {
+        String openId = "open-id";
+        String ssl = "ssl-certificate";
+
+        List<String> result =
+                given().param("product")
+                        .when()
+                        .get("http://localhost:8080/v2/banks/filter-by-auth/open-id")
+                        .then()
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".");
+        assertThat(true).isEqualTo(result.size()==3);
+    }
 }
