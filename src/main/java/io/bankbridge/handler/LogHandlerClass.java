@@ -21,7 +21,6 @@ public class LogHandlerClass {
             FileHandler fileHandler = new FileHandler("main-log.log", true);
             fileHandler.setLevel(Level.ALL);
             logger.addHandler(fileHandler);
-;
         } catch (IOException ioException) {
             logger.log(Level.SEVERE, "Error: file logger not working.", ioException);
         }

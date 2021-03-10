@@ -1,29 +1,22 @@
 package io.bankbridge;
 
-import io.bankbridge.handler.BanksRemoteCalls;
 import io.bankbridge.model.response.BankV1Response;
 import io.bankbridge.model.response.BankV2Response;
-import io.restassured.RestAssured;
-import io.restassured.filter.Filter;
-import org.assertj.core.api.AbstractStringAssert;
 import org.junit.jupiter.api.Test;
-import spark.Request;
-
 
 import java.util.List;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BankCallsTests {
 
-    private AbstractStringAssert<?> countryCode;
+
 
     @Test
     public void bankV1ResponseAssertingUserInputs(){
         BankV1Response bankV1Response = new BankV1Response();
-        String products[] = new String []{"payments", "account"};
         bankV1Response.setName("Bank of Love");
         bankV1Response.setId("color1234");
         bankV1Response.setCountryCode("NO");
@@ -64,7 +57,6 @@ public class BankCallsTests {
                         .when()
                         .get("http://localhost:8080/v2/banks/all")
                         .then().extract().body().jsonPath().getList(".");
-
         assertThat(result).hasSize(20);
     }
 
@@ -127,7 +119,6 @@ public class BankCallsTests {
                         .body()
                         .jsonPath()
                         .getList(".");
-        System.out.println(result.size());
         assertThat(true).isEqualTo(result.size()==5);
     }
 
@@ -142,7 +133,6 @@ public class BankCallsTests {
                     .body()
                     .jsonPath()
                     .getList(".");
-        System.out.println(result.size());
             assertThat(true).isEqualTo(result.size()==6);
     }
 
@@ -157,13 +147,11 @@ public class BankCallsTests {
                         .body()
                         .jsonPath()
                         .getList(".");
-        System.out.println(result.size());
         assertThat(true).isEqualTo(result.size()==16);
     }
 
     @Test
     public void bankV1EndpointWithAuthParameterTest() {
-        String oauth = "oauth";
         List<String> result =
                 given().param("product")
                         .when()
@@ -178,9 +166,6 @@ public class BankCallsTests {
 
     @Test
     public void bankV2EndpointWithAuthParameterTest() {
-        String openId = "open-id";
-        String ssl = "ssl-certificate";
-
         List<String> result =
                 given().param("product")
                         .when()

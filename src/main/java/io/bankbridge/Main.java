@@ -50,8 +50,8 @@ public class Main {
 		localhost_8080.get("/v2/banks/filter-by-country-code/", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
 		localhost_8080.get("/v1/banks/filter-by-auth/", (request1, response1) -> BanksCacheBased.filterByAuth(request1));
 		localhost_8080.get("/v1/banks/filter-by-auth/:auth", (request, response) -> BanksCacheBased.filterByAuth(request));
-		localhost_8080.get("/v2/banks/filter-by-auth/:auth", BanksRemoteCalls::filterByAuth);
-		localhost_8080.get("/v2/banks/filter-by-auth/", BanksRemoteCalls::filterByAuth);
+		localhost_8080.get("/v2/banks/filter-by-auth/:auth", (request3, response3) -> BanksRemoteCalls.filterByAuth(request3));
+		localhost_8080.get("/v2/banks/filter-by-auth/", (request2, response2) -> BanksRemoteCalls.filterByAuth(request2));
 		localhost_8080.get("/v1/banks/filter-by-product/", (request1, response1) -> BanksCacheBased.filterByProduct(request1));
 		localhost_8080.get("/v1/banks/filter-by-product/:product", (request, response) -> BanksCacheBased.filterByProduct(request));
 	}

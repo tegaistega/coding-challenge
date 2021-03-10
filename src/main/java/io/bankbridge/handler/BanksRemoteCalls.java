@@ -1,4 +1,12 @@
 package io.bankbridge.handler;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.bankbridge.model.request.BankModel;
+import io.bankbridge.model.response.BankV2Response;
+import spark.Request;
+import spark.Response;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,19 +15,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.bankbridge.Main;
-import io.bankbridge.model.request.BankModel;
-import io.bankbridge.model.response.BankV2Response;
-import spark.Request;
-import spark.Response;
 
 public class BanksRemoteCalls {
 
@@ -86,7 +84,7 @@ public class BanksRemoteCalls {
 		try{
 			int defaultPageContentSize = 5;
 			String userRequestSize = request.params(":size");
-			int userRequestSizeValue = 0;
+			int userRequestSizeValue;
 
 			if (userRequestSize == null) {
 				userRequestSizeValue = defaultPageContentSize;
@@ -98,8 +96,7 @@ public class BanksRemoteCalls {
 
 			if((userRequestSizeValue <= 0) || (userRequestSizeValue > bankV2Responses.size())){
 				response.status(400);
-				String statusMessage = "Bad Request: Enter a value greater than zero and less than 20";
-				return statusMessage;
+				return "Bad Request: Enter a value greater than zero and less than 20";
 
 			}else{
 				bankV2ResponseList = IntStream.range(0, userRequestSizeValue)
@@ -125,7 +122,7 @@ public class BanksRemoteCalls {
 				bankV2ResponseList1.addAll(bankV2ResponseList);
 			}else {
 				bankV2ResponseList.forEach(bank ->{
-					if(bank.getCountryCode().toUpperCase().equals(countryCode.toUpperCase())){
+					if(bank.getCountryCode().equalsIgnoreCase(countryCode)){
 						bankV2ResponseList1.add(bank);
 					}
 				});
@@ -137,7 +134,7 @@ public class BanksRemoteCalls {
 		}
 	}
 
-	public static Object filterByAuth(Request request, Response response) throws IOException {
+	public static Object filterByAuth(Request request) throws IOException {
 		List<BankV2Response> bankV2ResponseList = new ArrayList<>();
 		List<BankV2Response> bankV2ResponseList1 = new ArrayList<>();
 
