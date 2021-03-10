@@ -69,7 +69,7 @@ public class BanksCacheBased {
 			// which is collected as a parameter
 			String userRequestSize = request.params(":size");
 
-			// check if the page content size inputted by the user is equal
+			// check if the page content size inputted by the user is null or empty
 			// check if the page content size inputted by the user is empty
 			 if(userRequestSize == null || userRequestSize.isEmpty()){
 
@@ -100,9 +100,10 @@ public class BanksCacheBased {
 					// if the above condition is false, then do the loop
 				}else{
 
+					// add a bank data to the list for every time i is less than the parsed value
 					for(int i = 0; i<userRequestSizeValue; i++){
 
-						// add each bankv1Responses to the bankV1Responses list
+						// add each bankV1Responses to the bankV1Responses list
 						bankV1Responses1.add(bankV1Responses.get(i));
 					}
 				}
@@ -119,7 +120,7 @@ public class BanksCacheBased {
 		}
 	}
 
-	// Method to filter banks by their country code
+	// Method to filter v1 Banks by their country code
 	public static Object filterByCountryCode(Request request, Response countryCodeResponse){
 
 		//Create a temporary list to store the single returned bank data
@@ -148,8 +149,7 @@ public class BanksCacheBased {
 				//loop through the bank to get the banks with the inputted country code
 				for (BankV1Response bank : bankV1ResponseList) {
 
-					// get all the banks with the inputted country code
-
+					// get all the banks with the inputted country code and ignore case and transform case
 					if (bank.getCountryCode().equalsIgnoreCase((countryCode.toUpperCase()))) {
 
 						// add the banks to the list bankV1ResponseList1
@@ -165,7 +165,7 @@ public class BanksCacheBased {
 		}
 	}
 
-	// Method to filter by Auth
+	// Method to filter v1 bank by Auth
 	public static Object filterByAuth(Request request, Response authResponse) {
 
 		//Create a temporary list to store the single returned bank data

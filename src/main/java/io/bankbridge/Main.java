@@ -45,12 +45,12 @@ public class Main {
 		localhost_8080.get("/v2/banks/:size", BanksRemoteCalls::pageContentSizingForPagination);
 		localhost_8080.get("/v1/banks/filter-by-country-code/:countryCode", BanksCacheBased::filterByCountryCode);
 		localhost_8080.get("/v1/banks/filter-by-country-code/", BanksCacheBased::filterByCountryCode);
-		localhost_8080.get("/v2/banks/filter-by-country-code/:countryCode", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
-		localhost_8080.get("/v2/banks/filter-by-country-code/", (request, response) -> BanksRemoteCalls.filterByCountryCode(request));
+		localhost_8080.get("/v2/banks/filter-by-country-code/:countryCode", BanksRemoteCalls::filterByCountryCode);
+		localhost_8080.get("/v2/banks/filter-by-country-code/", BanksRemoteCalls::filterByCountryCode);
 		localhost_8080.get("/v1/banks/filter-by-auth/", BanksCacheBased::filterByAuth);
 		localhost_8080.get("/v1/banks/filter-by-auth/:auth", BanksCacheBased::filterByAuth);
-		localhost_8080.get("/v2/banks/filter-by-auth/:auth", (request3, response3) -> BanksRemoteCalls.filterByAuth(request3));
-		localhost_8080.get("/v2/banks/filter-by-auth/", (request2, response2) -> BanksRemoteCalls.filterByAuth(request2));
+		localhost_8080.get("/v2/banks/filter-by-auth/:auth", (request3, response3) -> BanksRemoteCalls.filterByAuth(request3, response3));
+		localhost_8080.get("/v2/banks/filter-by-auth/", (request2, response2) -> BanksRemoteCalls.filterByAuth(request2, response2));
 		localhost_8080.get("/v1/banks/filter-by-product/", BanksCacheBased::filterByProduct);
 		localhost_8080.get("/v1/banks/filter-by-product/:product", BanksCacheBased::filterByProduct);
 	}
