@@ -1090,3 +1090,84 @@
   <thread>1</thread>
   <message>File read error</message>
 </record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-10T13:48:51.470024900Z</date>
+  <millis>1615384131470</millis>
+  <nanos>24900</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-10T13:48:51.491068100Z</date>
+  <millis>1615384131491</millis>
+  <nanos>68100</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-10T14:23:31.226310600Z</date>
+  <millis>1615386211226</millis>
+  <nanos>310600</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-10T14:23:31.240577900Z</date>
+  <millis>1615386211240</millis>
+  <nanos>577900</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-03-10T14:24:49.002501600Z</date>
+  <millis>1615386289002</millis>
+  <nanos>501600</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Logger started successfully</message>
+</record>
+<record>
+  <date>2021-03-10T14:24:49.014649700Z</date>
+  <millis>1615386289014</millis>
+  <nanos>649700</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>ALL</level>
+  <class>io.bankbridge.Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>File read error</message>
+</record>
